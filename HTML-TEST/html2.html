@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metfone Internet</title>
+    <link rel="icon" type="image/png" href="Wifi-icon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #e63946;
+            --secondary: #9d0208;
+            --accent: #ff6b6b;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4bb543;
+        }
+
+        body {
+            background-color: #fff5f5;
+            color: var(--dark);
+            line-height: 1.6;
+            /* FLUID TYPOGRAPHY: Base font size scales gently */
+            font-size: clamp(1rem, 0.95rem + 0.25vw, 1.1rem);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: clamp(1.5rem, 1.2rem + 1vw, 1.8rem); /* Fluid logo size */
+            font-weight: 700;
+        }
+
+        .logo i {
+            color: var(--accent);
+        }
+
+        /* NEW: Wrapper for nav and buttons for mobile toggling */
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #ffcccb;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        /* NEW: Mobile menu toggle button (hamburger icon) */
+        .menu-toggle {
+            display: none; /* Hidden on desktop */
+            font-size: 1.5rem;
+            color: white;
+            cursor: pointer;
+        }
+
+        .btn {
+            padding: 0.6rem 1.5rem;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            text-decoration: none; /* Good for <a> tags if used as buttons */
+            display: inline-block; /* Ensures padding is respected */
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+        }
+
+        .btn-outline:hover {
+            background: white;
+            color: var(--primary);
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #ff5252;
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 5rem 0;
+            background: linear-gradient(rgba(230, 57, 70, 0.9), rgba(157, 2, 8, 0.9)), url('https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+        }
+
+        .hero h1 {
+            /* FLUID TYPOGRAPHY: Scales from 2.5rem to 3.5rem */
+            font-size: clamp(2.5rem, 1.5rem + 5vw, 3.5rem);
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            /* FLUID TYPOGRAPHY: Scales from 1rem to 1.2rem */
+            font-size: clamp(1rem, 0.8rem + 1vw, 1.2rem);
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            opacity: 0.9;
+        }
+
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        /* Plans Section */
+        .plans {
+            padding: 5rem 0;
+            text-align: center;
+        }
+
+        .section-title {
+            /* FLUID TYPOGRAPHY: Scales from 2rem to 2.5rem */
+            font-size: clamp(2rem, 1.5rem + 2.5vw, 2.5rem);
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto 3rem;
+        }
+
+        .plans-container {
+            display: grid;
+            /* RESPONSIVE GRID: Updated min size for better small-screen fit */
+            grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .plan-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2.5rem 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+            display: flex; /* Use flex to control footer button */
+            flex-direction: column; /* Stack content */
+        }
+
+        .plan-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .plan-card.popular::before {
+            content: "MOST POPULAR";
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: var(--accent);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border-radius: 0 0 0 15px;
+        }
+
+        .plan-name {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+
+        .plan-price {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .plan-price span {
+            font-size: 1rem;
+            color: #777;
+        }
+
+        .plan-features {
+            list-style: none;
+            text-align: left;
+            margin-bottom: 2rem;
+            flex-grow: 1; /* Pushes button to the bottom */
+        }
+
+        .plan-features li {
+            padding: 0.7rem 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .plan-features li i {
+            color: var(--success);
+        }
+        
+        /* Plan card button styling */
+        .plan-card .btn {
+            margin-top: auto; /* Aligns button to the bottom */
+        }
+
+        .plan-card .btn-outline {
+             color: var(--primary); 
+             border-color: var(--primary);
+        }
+
+        .plan-card .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+
+        /* Features Section */
+        .features {
+            padding: 5rem 0;
+            background: white;
+        }
+
+        .features-container {
+            display: grid;
+            /* RESPONSIVE GRID: Updated min size */
+            grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 2rem;
+            border-radius: 10px;
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: white;
+            font-size: 2rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+
+        /* Testimonials */
+        .testimonials {
+            padding: 5rem 0;
+            background: #ffeaea;
+        }
+
+        .testimonials-container {
+            display: grid;
+            /* RESPONSIVE GRID: Updated min size */
+            grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+            gap: 2rem;
+        }
+
+        .testimonial-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 1.5rem;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            /* RESPONSIVE GRID: Footer columns */
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-column a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-column a:hover {
+            color: var(--accent);
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-icons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transition: background 0.3s;
+        }
+
+        .social-icons a:hover {
+            background: var(--accent);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
+        /* --- Responsive Design --- */
+
+        /* NEW: Tablet & Mobile Navigation (992px and down) */
+        @media (max-width: 992px) {
+            .menu-toggle {
+                display: block; /* Show hamburger icon */
+            }
+
+            .nav-menu {
+                display: none; /* Hide menu by default */
+                position: absolute;
+                top: 100%; /* Position below header */
+                left: 0;
+                width: 100%;
+                background: linear-gradient(135deg, var(--primary), var(--secondary));
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                
+                flex-direction: column;
+                padding: 1.5rem 0;
+                gap: 1.5rem;
+            }
+
+            /* NEW: This class is toggled by JavaScript */
+            .nav-menu.active {
+                display: flex; 
+            }
+
+            .nav-menu nav ul {
+                flex-direction: column;
+                align-items: center;
+                gap: 1.5rem;
+            }
+
+            .nav-menu .auth-buttons {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+                width: 100%;
+            }
+
+            .nav-menu .btn {
+                width: 80%;
+                max-width: 250px;
+                text-align: center;
+            }
+        }
+
+        /* MODIFIED: Mobile Specifics (768px and down) */
+        @media (max-width: 768px) {
+            /* REMOVED: .header-content { flex-direction: column; }
+               This is no longer needed as the nav is handled by the toggle.
+            */
+            
+            /* REMOVED: .hero h1 { font-size: 2.5rem; }
+               This is now handled by clamp()
+            */
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            /* Make hero buttons full-width on mobile */
+            .hero-buttons .btn {
+                width: 100%;
+                max-width: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <img src="logo-red.png" alt="Metfone Logo" class="metfone-logo">
+                </div>
+                
+                <div class="nav-menu">
+                    <nav>
+                        <ul>
+                            <li><a href="#">Home</a></li>
+                            <li><a href="#">Plans</a></li>
+                            <li><a href="#">Coverage</a></li>
+                            <li><a href="#">Support</a></li>
+                            <li><a href="#">About</a></li>
+                        </ul>
+                    </nav>
+                    <div class="auth-buttons">
+                        <button class="btn btn-outline">Login</button>
+                        <button class="btn btn-primary">Sign Up</button>
+                    </div>
+                </div>
+
+                <div class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Lightning-Fast Internet for Your Home & Business</h1>
+            <p>Experience seamless connectivity with our fiber-optic network. Stream, game, and work without interruptions.</p>
+            <div class="hero-buttons">
+                <button class="btn btn-primary">View Plans</button>
+                <button class="btn btn-outline">Check Availability</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="plans">
+        <div class="container">
+            <h2 class="section-title">Choose Your Perfect Plan</h2>
+            <p class="section-subtitle">We offer flexible internet plans to suit every need and budget. No hidden fees, no contracts.</p>
+            
+            <div class="plans-container">
+                <div class="plan-card">
+                    <h3 class="plan-name">Basic1</h3>
+                    <div class="plan-price">$15<span>/month</span></div>
+                    <ul class="plan-features">
+                        <li><i class="fas fa-check"></i> Up to 50 Mbps</li>
+                        <li><i class="fas fa-check"></i> Unlimited Data</li>
+                        <li><i class="fas fa-check"></i> Free Modem Rental</li>
+                        <li><i class="fas fa-check"></i> Free 2 Sim</li>
+                        <li><i class="fas fa-check"></i> Basic Support</li>
+                        <li><i class="fas fa-check"></i> Premium Support</li>
+                        
+                    </ul>
+                    
+                    <button class="btn btn-outline">Select Plan</button>
+                </div>
+                
+                <div class="plan-card popular">
+                    <h3 class="plan-name">Basic2</h3>
+                    <div class="plan-price">$18<span>/month</span></div>
+                    <ul class="plan-features">
+                        <li><i class="fas fa-check"></i> Up to 60 Mbps</li>
+                        <li><i class="fas fa-check"></i> Unlimited Data</li>
+                        <li><i class="fas fa-check"></i> Free Modem Rental</li>
+                        <li><i class="fas fa-check"></i> Free 2 Sim</li>
+                        <li><i class="fas fa-check"></i> Basic Support</li>
+                        <li><i class="fas fa-check"></i> Premium Support</li>
+                    </ul>
+                    <button class="btn btn-primary">Select Plan</button>
+                </div>
+
+                <div class="plan-card popular">
+                    <h3 class="plan-name">Basic3</h3>
+                    <div class="plan-price">$25<span>/month</span></div>
+                    <ul class="plan-features">
+                        <li><i class="fas fa-check"></i> Up to 85 Mbps</li>
+                        <li><i class="fas fa-check"></i> Unlimited Data</li>
+                        <li><i class="fas fa-check"></i> Free Modem Rental</li>
+                        <li><i class="fas fa-check"></i> Free 2 Sim</li>
+                        <li><i class="fas fa-check"></i> Basic Support</li>
+                        <li><i class="fas fa-check"></i> Premium Support</li>
+                    </ul>
+                    <button class="btn btn-primary">Select Plan</button>
+                </div>
+
+                <div class="plan-card popular">
+                    <h3 class="plan-name">Basic435</h3>
+                    <div class="plan-price">$35<span>/month</span></div>
+                    <ul class="plan-features">
+                        <li><i class="fas fa-check"></i> Up to 120 Mbps</li>
+                        <li><i class="fas fa-check"></i> Unlimited Data</li>
+                        <li><i class="fas fa-check"></i> Free Modem Rental</li>
+                        <li><i class="fas fa-check"></i> Free 2 Sim</li>
+                        <li><i class="fas fa-check"></i> Basic Support</li>
+                        <li><i class="fas fa-check"></i> Premium Support</li>
+                    </ul>
+                    <button class="btn btn-primary">Select Plan</button>
+                </div>
+                
+                <div class="plan-card">
+                    <h3 class="plan-name">Premium</h3>
+                    <div class="plan-price">$55<span>/month</span></div>
+                    <ul class="plan-features">
+                        <li><i class="fas fa-check"></i> Up to 150 Mbps</li>
+                        <li><i class="fas fa-check"></i> Unlimited Data</li>
+                        <li><i class="fas fa-check"></i> Free Modem Rental</li>
+                        <li><i class="fas fa-check"></i> Priority Support</li>
+                        <li><i class="fas fa-check"></i> Free Installation</li>
+                    </ul>
+                    <button class="btn btn-outline">Select Plan</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">Why Choose Metfone Internet?</h2>
+            <p class="section-subtitle">We're committed to providing the best internet experience with cutting-edge technology and exceptional customer service.</p>
+            
+            <div class="features-container">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>Blazing Fast Speeds</h3>
+                    <p>Experience lightning-fast download and upload speeds with our fiber-optic network.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Secure Connection</h3>
+                    <p>Advanced security features to protect your data and privacy online.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3>24/7 Support</h3>
+                    <p>Our expert support team is available round the clock to assist you.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials">
+        <div class="container">
+            <h2 class="section-title">What Our Customers Say</h2>
+            <p class="section-subtitle">Don't just take our word for it. Here's what our satisfied customers have to say about our service.</p>
+            
+            <div class="testimonials-container">
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"Switched to NetConnect six months ago and couldn't be happier. The speed is consistent, and the customer service is exceptional!"</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">JS</div>
+                        <div>
+                            <h4>John Smith</h4>
+                            <p>Small Business Owner</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"As a remote worker, reliable internet is crucial. NetConnect has never let me down, even during peak hours. Highly recommended!"</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">MJ</div>
+                        <div>
+                            <h4>Maria Johnson</h4>
+                            <p>Software Developer</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"The installation was quick, and the technician was very professional. The internet speed is exactly as advertised. Great value for money!"</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">RW</div>
+                        <div>
+                            <h4>Robert Williams</h4>
+                            <p>Content Creator</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>NetConnect</h3>
+                    <p>Providing high-speed internet services to homes and businesses across the country since 2010.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Plans & Pricing</a></li>
+                        <li><a href="#">Coverage Map</a></li>
+                        <li><a href="#">Support Center</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Services</h3>
+                    <ul>
+                        <li><a href="#">Residential Internet</a></li>
+                        <li><a href="#">Business Internet</a></li>
+                        <li><a href="#">Fiber Optic</a></li>
+                        <li><a href="#">WiFi Solutions</a></li>
+                        <li><a href="#">Network Security</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Contact Info</h3>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Tech Street, Digital City</li>
+                        <li><i class="fas fa-phone"></i> 1-800-NET-CONNECT</li>
+                        <li><i class="fas fa-envelope"></i> support@netconnect.com</li>
+                        <li><i class="fas fa-clock"></i> Mon-Fri: 9AM-9PM, Sat: 10AM-6PM</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 NetConnect Internet Services. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple JavaScript for interactive elements
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // --- NEW: Mobile Menu Toggle ---
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navMenu = document.querySelector('.nav-menu');
+
+            if (menuToggle && navMenu) { // Check if elements exist
+                menuToggle.addEventListener('click', function() {
+                    navMenu.classList.toggle('active');
+                    
+                    // Optional: Change icon to 'X' when open
+                    const icon = menuToggle.querySelector('i');
+                    if (navMenu.classList.contains('active')) {
+                        icon.classList.remove('fa-bars');
+                        icon.classList.add('fa-times');
+                    } else {
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    }
+                });
+            }
+
+            // Plan selection buttons
+            const planButtons = document.querySelectorAll('.plan-card .btn');
+            
+            planButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const planName = this.closest('.plan-card').querySelector('.plan-name').textContent;
+                    alert(`You've selected the ${planName} plan! Redirecting to checkout...`);
+                    // In a real application, this would redirect to a checkout page
+                });
+            });
+            
+            // Header buttons
+            const loginBtn = document.querySelector('.auth-buttons .btn-outline');
+            const signupBtn = document.querySelector('.auth-buttons .btn-primary');
+            
+            if(loginBtn) {
+                loginBtn.addEventListener('click', function() {
+                    alert('Login form would appear here');
+                });
+            }
+
+            if(signupBtn) {
+                signupBtn.addEventListener('click', function() {
+                    alert('Sign up form would appear here');
+                });
+            }
+            
+            // Hero buttons
+            const viewPlansBtn = document.querySelector('.hero-buttons .btn-primary');
+            const checkAvailabilityBtn = document.querySelector('.hero-buttons .btn-outline');
+            
+            if(viewPlansBtn) {
+                viewPlansBtn.addEventListener('click', function() {
+                    document.querySelector('.plans').scrollIntoView({ behavior: 'smooth' });
+                });
+            }
+            
+            if(checkAvailabilityBtn) {
+                checkAvailabilityBtn.addEventListener('click', function() {
+                    alert('Availability checker would appear here');
+                });
+            }
+        });
+    </script>
+</body>
+</html>

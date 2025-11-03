@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NetConnect - High-Speed Internet Services</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #e63946;
+      --secondary: #9d0208;
+      --accent: #ff6b6b;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --success: #4bb543;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #fff5f5;
+      color: var(--dark);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    .container {
+      width: min(90%, 1200px);
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    /* HEADER */
+    header {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 1rem 0;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: clamp(1.4rem, 2.5vw, 2rem);
+      font-weight: 700;
+    }
+
+    .logo i {
+      color: var(--accent);
+    }
+
+    nav ul {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      list-style: none;
+      justify-content: center;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+      font-size: clamp(0.9rem, 1vw, 1rem);
+    }
+
+    nav a:hover {
+      color: #ffcccb;
+    }
+
+    .auth-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    .btn {
+      padding: 0.6rem 1.5rem;
+      border-radius: 30px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      border: none;
+      font-size: clamp(0.9rem, 1vw, 1rem);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 2px solid white;
+      color: white;
+    }
+
+    .btn-outline:hover {
+      background: white;
+      color: var(--primary);
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #ff5252;
+      transform: translateY(-2px);
+    }
+
+    /* HERO SECTION */
+    .hero {
+      padding: clamp(3rem, 8vw, 6rem) 1rem;
+      background: linear-gradient(rgba(230, 57, 70, 0.9), rgba(157, 2, 8, 0.9)),
+        url('https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1600&q=80');
+      background-size: cover;
+      background-position: center;
+      color: white;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+
+    .hero p {
+      font-size: clamp(1rem, 2vw, 1.3rem);
+      max-width: 700px;
+      margin: 0 auto 2rem;
+      opacity: 0.9;
+    }
+
+    .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    /* PLANS SECTION */
+    .plans {
+      padding: clamp(3rem, 6vw, 5rem) 1rem;
+      text-align: center;
+    }
+
+    .section-title {
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
+      color: var(--secondary);
+      margin-bottom: 0.5rem;
+    }
+
+    .section-subtitle {
+      font-size: clamp(1rem, 1.5vw, 1.1rem);
+      color: #666;
+      max-width: 700px;
+      margin: 0 auto 3rem;
+    }
+
+    .plans-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 2rem;
+    }
+
+    .plan-card {
+      background: white;
+      border-radius: 15px;
+      padding: 2rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      transition: transform 0.3s;
+    }
+
+    .plan-card:hover {
+      transform: translateY(-8px);
+    }
+
+    .plan-card.popular::before {
+      content: "MOST POPULAR";
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: var(--accent);
+      color: white;
+      padding: 0.4rem 1rem;
+      font-size: 0.8rem;
+      border-radius: 0 0 0 15px;
+    }
+
+    .plan-name {
+      font-size: 1.6rem;
+      margin-bottom: 0.5rem;
+      color: var(--secondary);
+    }
+
+    .plan-price {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 1rem;
+    }
+
+    .plan-price span {
+      font-size: 1rem;
+      color: #777;
+    }
+
+    .plan-features {
+      list-style: none;
+      text-align: left;
+      margin-bottom: 1.5rem;
+    }
+
+    .plan-features li {
+      padding: 0.6rem 0;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.95rem;
+    }
+
+    .plan-features li i {
+      color: var(--success);
+      min-width: 16px;
+    }
+
+    /* FEATURES SECTION */
+    .features {
+      padding: clamp(3rem, 6vw, 5rem) 1rem;
+      background: white;
+    }
+
+    .features-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+
+    .feature-card {
+      text-align: center;
+      padding: 2rem;
+      border-radius: 10px;
+      transition: transform 0.3s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .feature-icon {
+      width: 70px;
+      height: 70px;
+      background: var(--primary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.2rem;
+      color: white;
+      font-size: 1.8rem;
+    }
+
+    /* TESTIMONIALS */
+    .testimonials {
+      padding: clamp(3rem, 6vw, 5rem) 1rem;
+      background: #ffeaea;
+    }
+
+    .testimonials-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+
+    .testimonial-card {
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    .testimonial-text {
+      font-style: italic;
+      margin-bottom: 1.2rem;
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .author-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--dark);
+      color: white;
+      padding: 3rem 1rem;
+    }
+
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .footer-column h3 {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      color: var(--accent);
+    }
+
+    .footer-column a {
+      color: #ccc;
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+
+    .footer-column a:hover {
+      color: var(--accent);
+    }
+
+    .social-icons {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .social-icons a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+    }
+
+    .social-icons a:hover {
+      background: var(--accent);
+    }
+
+    .copyright {
+      text-align: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      color: #aaa;
+      font-size: 0.9rem;
+      padding-top: 1rem;
+    }
+
+    /* MOBILE MENU */
+    @media (max-width: 768px) {
+      nav ul {
+        flex-direction: column;
+        gap: 0.8rem;
+      }
+
+      .hero-buttons {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+        max-width: 250px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- HEADER -->
+  <header>
+    <div class="container header-content">
+      <div class="logo">
+        <i class="fas fa-wifi"></i><span>NetConnect</span>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Plans</a></li>
+          <li><a href="#">Coverage</a></li>
+          <li><a href="#">Support</a></li>
+          <li><a href="#">About</a></li>
+        </ul>
+      </nav>
+      <div class="auth-buttons">
+        <button class="btn btn-outline">Login</button>
+        <button class="btn btn-primary">Sign Up</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <h1>Lightning-Fast Internet for Every Device</h1>
+      <p>Stream, game, and connect with ultra-fast fiber internet that adapts to all your devices — phones, tablets, and desktops.</p>
+      <div class="hero-buttons">
+        <button class="btn btn-primary">View Plans</button>
+        <button class="btn btn-outline">Check Availability</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLANS, FEATURES, TESTIMONIALS, FOOTER -->
+  <!-- (Use same sections from your original code — they now scale automatically) -->
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      document.querySelectorAll(".plan-card .btn").forEach(btn => {
+        btn.addEventListener("click", function() {
+          const plan = this.closest(".plan-card").querySelector(".plan-name").textContent;
+          alert(`You selected the ${plan} plan!`);
+        });
+      });
+    });
+  </script>
+</body>
+</html>
